@@ -1,2 +1,2 @@
-Robot move 3 blocks please
-Robot turn 90 degrees and move 4 blocks please
+Robot move 3 please
+Robot turn 90 and move 4 please
