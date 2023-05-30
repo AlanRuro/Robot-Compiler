@@ -26,10 +26,10 @@ SENTENCE: TURN_PHRASE NEXUS SENTENCE
 | MOVE_PHRASE
 ;
 
-TURN_PHRASE: VERB DEGREES                       { fprintf(outputFile, "turn,%d", $2); }
+TURN_PHRASE: VERB DEGREES                       { fprintf(outputFile, "turn,%d\n", $2); }
 ;
 
-MOVE_PHRASE: VERB NUM_BLOCK                     { fprintf(outputFile, "mov,%d", $2); }
+MOVE_PHRASE: VERB NUM_BLOCK                     { fprintf(outputFile, "mov,%d\n", $2); }
 ;
 
 

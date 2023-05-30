@@ -1,2 +1,1 @@
-Robot move 5 please
-Robot turn 90 and move 4 please
+Robot move 6 and turn 180 please
