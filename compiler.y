@@ -6,18 +6,20 @@ int yylex();
 void yyerror(const char *s);
 extern FILE *yyin;
 FILE *outputFile;
+int errorFlag = 0;
 %}
 
-%token NOUN OPENING_KIND_WORD ENDING_KIND_WORD VERB DEGREES NUM_BLOCK EOL NEXUS
+%token NOUN GREETINGS KIND_WORD VERB DEGREES NUM_BLOCK WORD_DEGREES WORD_BLOCKS EOL NEXUS
 %%
  
-INSTRUCTIONS: INSTRUCTION	{ printf("PASS\n"); };
-| INSTRUCTIONS EOL INSTRUCTIONS
-| INSTRUCTIONS EOL
+INSTRUCTIONS: INSTRUCTION                                   { printf("PASS\n"); };
+| INSTRUCTION EOL INSTRUCTIONS
+| INSTRUCTION EOL
 ;
 
-INSTRUCTION: OPENING_KIND_WORD NOUN SENTENCE
-| NOUN SENTENCE ENDING_KIND_WORD
+INSTRUCTION: GREETINGS NOUN KIND_WORD SENTENCE
+| NOUN KIND_WORD SENTENCE
+| NOUN SENTENCE KIND_WORD
 ;
 
 SENTENCE: TURN_PHRASE NEXUS SENTENCE
@@ -26,17 +28,20 @@ SENTENCE: TURN_PHRASE NEXUS SENTENCE
 | MOVE_PHRASE
 ;
 
-TURN_PHRASE: VERB DEGREES                       { fprintf(outputFile, "turn,%d\n", $2); }
+TURN_PHRASE: VERB DEGREES WORD_DEGREES                       { fprintf(outputFile, "turn,%d\n", $2); }
 ;
 
-MOVE_PHRASE: VERB NUM_BLOCK                     { fprintf(outputFile, "mov,%d\n", $2); }
+MOVE_PHRASE: VERB NUM_BLOCK WORD_BLOCKS                    { fprintf(outputFile, "mov,%d\n", $2); }
 ;
+
+
 
 
 %%
 
 void yyerror(const char *s) {
 	printf("FAIL\n");
+    errorFlag = 1;
 }
 
 int main(int argc, char **argv) {
@@ -56,8 +61,11 @@ int main(int argc, char **argv) {
         exit(1);
     }
     yyparse();
-    fclose(yyin);
+    if (errorFlag) {
+        freopen("instructions.asm", "w", outputFile);
+    }
     fclose(outputFile);
+    fclose(yyin);
     return 0;
 }
          

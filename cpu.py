@@ -5,6 +5,7 @@ More details.
 
 import csv
 import numpy
+import subprocess
 
 map_field = numpy.zeros(shape=(10,10))
 direction = 0
@@ -61,7 +62,7 @@ def change_position(number_of_blocks):
         map_field[row][column] = 1
         row += num_of_blocks_in_x
         column += num_of_blocks_in_y
-    map_field[row][column] = 3
+    map_field[row][column] = 4
     print(map_field)
 
 def do_instruction(inst):
@@ -81,8 +82,14 @@ def read_file():
             inst_list.append(row)
     return inst_list
 
+def generate_file():
+    command = "./compiler instructions.txt"
+    result = subprocess.run(command, shell=True)
+    if result.returncode != 0:
+        print("Command execution failed!")
+
 def main():
-    print("Hello World!")
+    generate_file()
     inst_list = read_file()
     for inst in inst_list:
         do_instruction(inst)
