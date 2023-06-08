@@ -9,8 +9,8 @@ def plot(val):
     g.attr('node', color='blue')
     g.node('S0')
 
-    g.attr('node', shape='square', color = 'black')
-    g.node('S4\n\n(current degrees + \ndegrees recieved) % 360')
+    # g.attr('node', shape='square', color = 'black')
+    # g.node('S4\n\n(current degrees + \ndegrees recieved) % 360')
 
     g.attr('node', shape='doublecircle', color = 'black')
     g.node('S9')
@@ -32,11 +32,11 @@ def main():
         ('S2', 'S9', 'ε'),
 
         ('S0', 'S3', 'TURN'),
-        ('S3', 'S4\n\n(current degrees + \ndegrees recieved) % 360', '90, 180, 270, 360'),
-        ('S4\n\n(current degrees + \ndegrees recieved) % 360', 'S5', '0'),
-        ('S4\n\n(current degrees + \ndegrees recieved) % 360', 'S6', '90'),
-        ('S4\n\n(current degrees + \ndegrees recieved) % 360', 'S7', '180'),
-        ('S4\n\n(current degrees + \ndegrees recieved) % 360', 'S8', '270'),
+        ('S3', 'S4', 'dr (90, 180, 270, 360)'),
+        ('S4', 'S5', 'cd (0)'),
+        ('S4', 'S6', 'cd (90)'),
+        ('S4', 'S7', 'cd (180)'),
+        ('S4', 'S8', 'cd (270)'),
 
         ('S5', 'S9', 'ε'),
         ('S6', 'S9', 'ε'),
