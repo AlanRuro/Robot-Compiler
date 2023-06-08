@@ -1,2 +1,3 @@
 Robot turn 270 degrees and then move 3 blocks and turn 90 degrees and move 1 blocks please
-Robot turn 90 degrees please
+Robot please turn 90 degrees
+Robot turn 70 degrees
