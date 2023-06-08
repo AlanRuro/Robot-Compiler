@@ -1,0 +1,41 @@
+digraph G {
+	node [color=blue]
+	S0
+	node [color=black shape=square]
+	"S4
+
+(current degrees + 
+degrees recieved) % 360"
+	node [color=black shape=doublecircle]
+	S9
+	node [color=black shape=circle]
+	S0 -> S1 [label=MOV]
+	S1 -> S2 [label="0-9"]
+	S2 -> S9 [label="ε"]
+	S0 -> S3 [label=TURN]
+	S3 -> "S4
+
+(current degrees + 
+degrees recieved) % 360" [label="90, 180, 270, 360"]
+	"S4
+
+(current degrees + 
+degrees recieved) % 360" -> S5 [label=0]
+	"S4
+
+(current degrees + 
+degrees recieved) % 360" -> S6 [label=90]
+	"S4
+
+(current degrees + 
+degrees recieved) % 360" -> S7 [label=180]
+	"S4
+
+(current degrees + 
+degrees recieved) % 360" -> S8 [label=270]
+	S5 -> S9 [label="ε"]
+	S6 -> S9 [label="ε"]
+	S7 -> S9 [label="ε"]
+	S8 -> S9 [label="ε"]
+	S9 -> S0 [label="ε"]
+}
