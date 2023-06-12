@@ -13,9 +13,9 @@ int errorFlag = 0;
  
 %%
  
-INSTRUCTIONS: INSTRUCTION                                   { printf("PASS\n"); };
-| INSTRUCTION EOL INSTRUCTIONS                              { printf("PASS\n"); };
-| INSTRUCTION EOL                                           { printf("PASS\n"); };
+INSTRUCTIONS: INSTRUCTION                                   
+| INSTRUCTION EOL INSTRUCTIONS                              
+| INSTRUCTION EOL                                           
 ;
 
 INSTRUCTION: GREETINGS NOUN KIND_WORD COMPLEX_SENTENCE

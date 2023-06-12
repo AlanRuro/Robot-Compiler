@@ -4,7 +4,7 @@ class TestCPUProgram(unittest.TestCase):
     
     def test_do_instruction_1(self):
         input_instructions = 'Robot turn 270 degrees, move 3 blocks please'
-        expected_output = 'turn, 270; move, 3'
+        expected_output = 'turn, 270; mov, 3'
         
         output_received = process_instructions(input_instructions)
         

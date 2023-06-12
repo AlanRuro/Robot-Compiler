@@ -24,11 +24,17 @@ def change_direction(degrees):
 
 def change_position(number_of_blocks):
     global row, column
-    num_of_blocks_in_x, num_of_blocks_in_y = movement[direction]
+    num_of_blocks_in_y, num_of_blocks_in_x = movement[direction]
     for i in range(number_of_blocks):
+        if (row >= 10):
+            raise ValueError("Row Boundary Reached")
+            ##row = 0
+        if (column >= 10):
+            raise ValueError("Column Boundary Reached")
+            ##column = 0
         map_field[row][column] = 1
-        row += num_of_blocks_in_x
-        column += num_of_blocks_in_y
+        row += num_of_blocks_in_y
+        column += num_of_blocks_in_x
     map_field[row][column] = 4
     print(map_field)
 
