@@ -9,32 +9,42 @@ FILE *outputFile;
 int errorFlag = 0;
 %}
 
-%token NOUN GREETINGS KIND_WORD VERB DEGREES NUM_BLOCK WORD_DEGREES WORD_BLOCKS EOL NEXUS
+%union {
+ int ival;
+ char *sval;
+}
+
+%token <sval> NOUN GREETINGS KIND_WORD VERB WORD_DEGREES WORD_BLOCKS EOL NEXUS COMMA
+%token <ival> DEGREES NUM_BLOCK
 %%
  
 INSTRUCTIONS: INSTRUCTION                                   { printf("PASS\n"); };
-| INSTRUCTION EOL INSTRUCTIONS
-| INSTRUCTION EOL
+| INSTRUCTION EOL INSTRUCTIONS                              { printf("PASS\n"); };
+| INSTRUCTION EOL                                           { printf("PASS\n"); };
 ;
 
-INSTRUCTION: GREETINGS NOUN KIND_WORD SENTENCE
-| NOUN KIND_WORD SENTENCE
-| NOUN SENTENCE KIND_WORD
+INSTRUCTION: GREETINGS NOUN KIND_WORD COMPLEX_SENTENCE
+| NOUN KIND_WORD COMPLEX_SENTENCE
+| NOUN COMPLEX_SENTENCE KIND_WORD
 ;
 
-SENTENCE: TURN_PHRASE NEXUS SENTENCE
-| MOVE_PHRASE NEXUS SENTENCE
-| TURN_PHRASE
+COMPLEX_SENTENCE: SENTENCE
+| SENTENCE NEXUS PHRASE
+;
+
+SENTENCE: PHRASE COMMA SENTENCE
+| PHRASE
+;
+
+PHRASE: TURN_PHRASE
 | MOVE_PHRASE
 ;
 
-TURN_PHRASE: VERB DEGREES WORD_DEGREES                       { if (!errorFlag){ fprintf(outputFile, "turn,%d\n", $2);} }
+TURN_PHRASE: VERB DEGREES WORD_DEGREES                       { if (!errorFlag){ fprintf(outputFile, "turn,%d\n", $2); } }
 ;
 
-MOVE_PHRASE: VERB NUM_BLOCK WORD_BLOCKS                      { if (!errorFlag){ fprintf(outputFile, "mov,%d\n", $2);} }
+MOVE_PHRASE: VERB NUM_BLOCK WORD_BLOCKS                      { if (!errorFlag){ fprintf(outputFile, "mov,%d\n", $2); } }
 ;
-
-
 
 
 %%
@@ -56,6 +66,7 @@ int main(int argc, char **argv) {
         exit(1);
     }
     outputFile = fopen("instructions.asm", "w");
+    freopen("instructions.asm", "w",outputFile);
     if (!outputFile) {
         perror("fopen");
         exit(1);

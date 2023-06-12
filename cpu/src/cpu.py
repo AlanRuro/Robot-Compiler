@@ -18,12 +18,6 @@ movement = {
     270: (1, 0)
 }
 
-def print_trace(number_of_blocks):
-    global map_field
-    for i in range(1, number_of_blocks + 1):
-        pass
-    map_field[row][column] = 'X'
-
 def change_direction(degrees):
     global direction
     direction = (direction + degrees) % 360
