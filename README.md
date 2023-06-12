@@ -26,7 +26,6 @@
 - [Folders](#folders)
 - [Installation](#installation)
 - [Usage](#usage)
-- [License](#license)
 
 ---
 
@@ -69,9 +68,3 @@ To compile and run a robot program, follow these steps:
 5. Run the python file: `python3 cpu.py`
 
 ---
-
-## License
-
-The Robot Compiler project is licensed under the [MIT License](https://opensource.org/licenses/MIT). See the [LICENSE](LICENSE) file for more information.
-
-
