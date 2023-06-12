@@ -28,35 +28,8 @@ def change_direction(degrees):
     global direction
     direction = (direction + degrees) % 360
 
-def go_right():
-    global column
-    column += 1
-
-def go_up():
-    global row
-    row -= 1
-
-def go_left():
-    global column
-    column -= 1
-
-def go_down():
-    global row
-    row += 1
-
 def change_position(number_of_blocks):
     global row, column
-    # for i in range(number_of_blocks):
-    #     map_field[row][column] = 1
-    #     if direction == 0:
-    #         go_right()
-    #     elif direction == 90:
-    #         go_up()
-    #     elif direction == 180:
-    #         go_left()
-    #     elif direction == 270:
-    #         go_down()
-    # map_field[row][column] = 3
     num_of_blocks_in_x, num_of_blocks_in_y = movement[direction]
     for i in range(number_of_blocks):
         map_field[row][column] = 1
@@ -76,14 +49,14 @@ def do_instruction(inst):
 
 def read_file():
     inst_list = []
-    with open('instructions.asm') as csv_file:
+    with open('./cpu/src/instructions.asm') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         for row in csv_reader:
             inst_list.append(row)
     return inst_list
 
 def generate_file():
-    command = "../../compiler/compiler instructions.txt"
+    command = "./compiler instructions.txt"
     result = subprocess.run(command, shell=True)
     if result.returncode != 0:
         print("Command execution failed!")
