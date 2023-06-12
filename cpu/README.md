@@ -50,7 +50,7 @@ The deliverable consists of two main files: `cpu.py` and `automata.py`.
 
 `automata.py` contains a function `plot(val)` that generates a visualization of an automata using the Graphviz library. The automata is defined using a list of tuples representing the states, transitions, and labels. The `main()` function in this file creates an automata and generates its visualization.
 
-![Automata](./automata/automata_image.png)
+<img width="390" alt="automata_image" src="https://github.com/AlanRuro/Robot-Compiler/assets/66846209/10a45b03-2dad-412b-8ec8-f065e76024bb">
 
 ## Functionality
 
