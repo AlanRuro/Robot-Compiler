@@ -137,5 +137,123 @@ Any other input that does not match the defined patterns would be rejected and n
 
 Industry 4.0 encompasses intelligent manufacturing and the emergence of smart factories, which have recently extended their influence to the mechanical industry. This expansion is driven by the rapid advancement of technology and the growing demand for high-quality products with increased efficiency. Consequently, the role of robots has become crucial, highlighting the significance of robot programming languages. To address this challenge, the development and implementation of a robust robot language compiler are necessary.
 
+## Declarations
+
+The code begins with a declarations section, which includes necessary header files, function declarations, and global variables.
+
+```c
+%{
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int yylex();
+void yyerror(const char *s);
+extern FILE *yyin;
+FILE *outputFile;
+int errorFlag = 0;
+%}
+```
+
+In this case, the code includes `<stdio.h>`, `<stdlib.h>`, and `<string.h>` header files. It declares the `yylex()` function, which is responsible for lexical analysis. It also declares the `yyerror()` function, which handles parsing errors. The `yyin` variable represents the input file, and the `outputFile` variable represents the output file. The `errorFlag` variable is used to track parsing errors.
+
+## Token Definitions
+
+The next section defines the tokens used in the grammar. Each token is associated with a symbolic name (`%token`) and should match the token definitions in the Lex file.
+
+```c
+%token NOUN GREETINGS KIND_WORD VERB DEGREES NUM_BLOCK WORD_DEGREES WORD_BLOCKS EOL NEXUS COMMA
+```
+
+In this case, the tokens correspond to various parts of the language defined by the grammar, such as nouns, greetings, verbs, degrees, blocks, etc.
+
+## Grammar Rules and Actions
+
+After the token definitions, the code defines the grammar rules and the corresponding actions to be executed when each rule is recognized.
+
+```c
+%%
+ 
+INSTRUCTIONS: INSTRUCTION                                   { printf("PASS\n"); };
+| INSTRUCTION EOL INSTRUCTIONS                              { printf("PASS\n"); };
+| INSTRUCTION EOL                                           { printf("PASS\n"); };
+;
+
+INSTRUCTION: GREETINGS NOUN KIND_WORD COMPLEX_SENTENCE
+| NOUN KIND_WORD COMPLEX_SENTENCE
+| NOUN COMPLEX_SENTENCE KIND_WORD
+;
+
+COMPLEX_SENTENCE: SENTENCE
+| SENTENCE NEXUS PHRASE
+;
+
+SENTENCE: PHRASE COMMA SENTENCE
+| PHRASE
+;
+
+PHRASE: TURN_PHRASE
+| MOVE_PHRASE
+;
+
+TURN_PHRASE: VERB DEGREES WORD_DEGREES                       { if (!errorFlag) fprintf(outputFile, "turn,%d\n", $2); }
+;
+
+MOVE_PHRASE: VERB NUM_BLOCK WORD_BLOCKS                      { if (!errorFlag) fprintf(outputFile, "mov,%d\n", $2); }
+;
+```
+
+In this code, each rule is defined using non-terminal symbols, followed by a colon (`:`) and the production rule. The production rule can consist of terminals, non-terminals, and actions.
+
+Here's a breakdown of the grammar rules:
+
+- The `INSTRUCTIONS` rule represents a list of instructions. It can be a single `INSTRUCTION`, an `INSTRUCTION` followed by an end-of-line (`EOL`) and more `INSTRUCTIONS`, or just an `INSTRUCTION` followed by an end-of-line.
+- The `INSTRUCTION` rule defines different forms of instructions. It can start with a `GREETINGS`, followed by a `NOUN`, a `KIND_WORD`, and a `COMPLEX_SENTENCE`. Alternatively, it can start with a `NOUN` followed by a `KIND_WORD`
+
+ and a `COMPLEX_SENTENCE`. It can also start with a `NOUN`, followed by a `COMPLEX_SENTENCE`, and end with a `KIND_WORD`.
+- The `COMPLEX_SENTENCE` rule represents a complex sentence. It can be a single `SENTENCE` or a `SENTENCE` followed by a `NEXUS` and a `PHRASE`.
+- The `SENTENCE` rule defines a sentence. It can be a `PHRASE` followed by a comma (`COMMA`) and another `SENTENCE`, or just a single `PHRASE`.
+- The `PHRASE` rule represents a phrase. It can be a `TURN_PHRASE` or a `MOVE_PHRASE`.
+- The `TURN_PHRASE` rule defines a phrase for turning. It consists of a `VERB`, a `DEGREES`, and a `WORD_DEGREES`. The associated action writes the corresponding assembly instruction to the `outputFile`.
+- The `MOVE_PHRASE` rule defines a phrase for moving. It consists of a `VERB`, a `NUM_BLOCK`, and a `WORD_BLOCKS`. The associated action writes the corresponding assembly instruction to the `outputFile`.
+
+## Error Handling
+
+The Yacc code also includes an error handling function `yyerror()`.
+
+```c
+void yyerror(const char *s) {
+    printf("FAIL\n");
+    errorFlag = 1;
+}
+```
+
+This function is called when a parsing error occurs. It prints "FAIL" and sets the `errorFlag` to 1.
+
+## Main Function
+
+The code ends with the `main()` function, which initializes the input and output files, performs the parsing using `yyparse()`, and closes the files.
+
+```c
+int main(int argc, char **argv) {
+    // ...
+    yyparse();
+    // ...
+    return 0;
+}
+```
 
 ## List of Sample Inputs to be Detected or Rejected
+
+- **Valid Inputs:**
+
+  1. Greetings Robot please turn 90 degrees.
+  2. Hello Robot move 2 blocks, turn 180 degrees, and then move 5 blocks.
+  3. Robot move 3 blocks and then turn 270 degrees.
+  4. Hi Robot turn 360 degrees.
+
+- **Invalid Inputs:**
+
+  1. Robot please move blocks. (Missing the number of blocks)
+  2. Turn 90 degrees and then move 2 blocks. (Missing the noun before the instruction)
+  3. Greetings please move 3 blocks. (Missing the noun after the greeting)
+  4. Hello Robot turn 90 degrees and move 2 blocks, then turn 180 degrees. (Incorrect order of instructions)
