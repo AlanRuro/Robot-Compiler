@@ -55,7 +55,7 @@ int main(int argc, char **argv) {
         perror("fopen");
         exit(1);
     }
-    outputFile = fopen("../cpu/src/instructions.asm", "w");
+    outputFile = fopen("instructions.asm", "w");
     if (!outputFile) {
         perror("fopen");
         exit(1);

@@ -49,14 +49,14 @@ def do_instruction(inst):
 
 def read_file():
     inst_list = []
-    with open('./cpu/src/instructions.asm') as csv_file:
+    with open('instructions.asm') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         for row in csv_reader:
             inst_list.append(row)
     return inst_list
 
 def generate_file():
-    command = "./compiler instructions.txt"
+    command = "../../compiler/compiler instructions.txt"
     result = subprocess.run(command, shell=True)
     if result.returncode != 0:
         print("Command execution failed!")
