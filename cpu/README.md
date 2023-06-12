@@ -1,3 +1,25 @@
+![descarga](https://github.com/AlanRuro/Robot-Compiler/assets/66846209/23f2cebd-87bf-49c5-8f2d-aa454aa624ca)
+
+<h1 align="center">Robot Compiler</h1>
+
+<h4 align="center">
+  Created by:
+</h4>
+
+<p align="center">
+  Diego Partida Romero - A01641113<br>
+  Carlos Alberto Veryan Peña - A01641147<br>
+  Alan Antonio Ruelas Robles - A01641426
+</p>
+
+<h3 align="center">Students of Tecnológico de Monterrey Campus GDA</h3>
+
+<h4 align="center">Implementation of Computational Methods (Gpo 601) - TC2037.601</h4>
+
+<h4 align="center">June 11, 2023</h4>
+
+---
+
 # Deliverable 1: Machine state and CPU simulator
 
 ## Introduction
