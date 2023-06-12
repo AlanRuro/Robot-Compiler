@@ -35,10 +35,10 @@ PHRASE: TURN_PHRASE
 | MOVE_PHRASE
 ;
 
-TURN_PHRASE: VERB DEGREES WORD_DEGREES                       { if (!errorFlag) fprintf(outputFile, "turn,%d\n", $2); }
+TURN_PHRASE: VERB DEGREES WORD_DEGREES                       { fprintf(outputFile, "turn,%d\n", $2); }
 ;
 
-MOVE_PHRASE: VERB NUM_BLOCK WORD_BLOCKS                      { if (!errorFlag) fprintf(outputFile, "mov,%d\n", $2); }
+MOVE_PHRASE: VERB NUM_BLOCK WORD_BLOCKS                      { fprintf(outputFile, "mov,%d\n", $2); }
 ;
 
 
@@ -61,12 +61,14 @@ int main(int argc, char **argv) {
         exit(1);
     }
     outputFile = fopen("instructions.asm", "w");
-    freopen("instructions.asm", "w",outputFile);
     if (!outputFile) {
         perror("fopen");
         exit(1);
     }
     yyparse();
+    if (errorFlag) {
+        freopen("instructions.asm", "w", outputFile);
+    }
     fclose(outputFile);
     fclose(yyin);
     return 0;
